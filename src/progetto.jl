@@ -1,10 +1,9 @@
-
 using DataStructures
 using LinearAlgebraicRepresentation
 Lar = LinearAlgebraicRepresentation
 using ViewerGL
 GL = ViewerGL
-
+using BenchmarkTools
 #" commenti preliminari '...' dopo alcune funzioni ad esempio hcat stanno a significare un numero variabile di argomenti"
 
 """
@@ -604,3 +603,32 @@ end
 #    end
 #    return pizza0
 #end
+
+function mia(radius=1., angle=2*pi)
+    function mia0(shape=[36])
+        A, EA = cuboidGrid(shape)
+        A = (angle/shape[1])*A
+        A = forCircle(radius)
+        W, EW = simplifyCells(A, EA)
+        return W, EW
+    end
+    return mia0
+end
+
+
+
+function forCircle(radius)
+V = hcat(map(u->[radius*cos(u); radius*sin(u)], V)...)   #funzione fatta da me
+end
+
+function fill_twos!(a)
+           for i = eachindex(a)
+               a[i] = 2
+           end
+       end;
+
+function strange_twos(n)
+           a = Vector{rand(Bool) ? Int64 : Float64}(undef, n)
+           fill_twos!(a)
+           return a
+       end;
