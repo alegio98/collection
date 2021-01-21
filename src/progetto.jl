@@ -603,20 +603,3 @@ end
 #    end
 #    return pizza0
 #end
-
-function mia(radius=1., angle=2*pi)
-    function mia0(shape=[36])
-        A, EA = cuboidGrid(shape)
-        A = (angle/shape[1])*A
-        A = forCircle(radius)
-        W, EW = simplifyCells(A, EA)
-        return W, EW
-    end
-    return mia0
-end
-
-
-
-function forCircle(radius)
-V = hcat(map(u->[radius*cos(u); radius*sin(u)], V)...)   #funzione fatta da me
-end
