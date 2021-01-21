@@ -620,15 +620,3 @@ end
 function forCircle(radius)
 V = hcat(map(u->[radius*cos(u); radius*sin(u)], V)...)   #funzione fatta da me
 end
-
-function fill_twos!(a)
-           for i = eachindex(a)
-               a[i] = 2
-           end
-       end;
-
-function strange_twos(n)
-           a = Vector{rand(Bool) ? Int64 : Float64}(undef, n)
-           fill_twos!(a)
-           return a
-       end;
