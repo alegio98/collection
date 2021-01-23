@@ -25,9 +25,10 @@ end
 	@test BoxCalculation(Lar.circle(1, 2*pi)()[1])==4 # è come di default
 	@test BoxCalculation(Lar.circle(2., 2*pi)()[1])==16
 	@test BoxCalculation(Lar.circle(3, 2*pi)()[1])==36
-	@test BoxCalculation(Lar.circle(5, pi/2)()[1])==25
-	#@test size(Lar.circle(3,2*pi)(60)[1],2)==60
+	@test BoxCalculation(Lar.circle(5, pi/2)()[1])==25 #aggiunto
+	@test BoxCalculation(Lar.circle(7, 2*pi)()[1])==196
 	@test length(Lar.circle(3,2*pi)([60])[2])==60
+	@test size(Lar.circle(3,2*pi)([60])[1])==(2,60)   #aggiunta in modo corretto
 end
 
 @testset "helix" begin
@@ -35,6 +36,7 @@ end
 	@test BoxCalculation(Lar.helix(2, 2, 2)()[1])==64
 	@test BoxCalculation(Lar.helix(1, 2, 5)()[1])==40
 	@test BoxCalculation(Lar.helix(1, 1, 3)()[1])==12
+	@test BoxCalculation(Lar.helix(1, 2, 3)()[1])==24 #aggiunta
 	#=
 	1, 1, 2, is contained
 	in a box that has volume (radius*2)^2*pitch*nturns
@@ -57,6 +59,7 @@ end
 	@test BoxCalculation(Lar.helicoid(2,1,2,2)()[1])==64
 	@test BoxCalculation(Lar.helicoid(1,.5,2,5)()[1])==40
 	@test BoxCalculation(Lar.helicoid(1,.3,1,3)()[1])==12
+	@test BoxCalculation(Lar.helicoid(1,.3,0,2)()[1])==0    #aggiunta
 	#=
 	1, 1, 2, is contained in a
 	box that has volume (radius*2)^2*pitch*nturns
