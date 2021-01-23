@@ -16,14 +16,14 @@ Transform the float `value` to get a `PRECISION` number of significant digits.
 
 """
 function approxVal(PRECISION)
-    function approxVal0(value)
-        out = round(value, digits=PRECISION)
-        if out == -0.0
-            out = 0.0
-        end
-        return out
-    end
-    return approxVal0
+	function approxVal0(value)
+		out = round(value, digits=PRECISION)
+		if out == -0.0
+			out = 0.0
+		end
+		return out
+	end
+	return approxVal0
 end
 
 
@@ -32,10 +32,11 @@ end
 """
 	W,CW = simplifyCells(V,CV)
 
-Find and remove the duplicated vertices and the incorrect cells.
-Some vertices may appear two or more times, due to numerical errors
-on mapped coordinates. Close vertices are identified, according to the
-PRECISION number of significant digits.
+Trova e rimuovi i vertici duplicati e le celle errate.
+Alcuni vertici possono apparire due o più volte, a causa di errori numerici
+su coordinate mappate. I vertici vicini vengono identificati, secondo il numero dato da PRECISION
+(numero di cifre significative).
+
 """
 function simplifyCells(V,CV)
 	PRECISION = 5
@@ -68,9 +69,9 @@ end
 """
 	circle(radius=1.; angle=2*pi)(shape=36)
 
-Compute an approximation of the circunference curve in 2D, centered on the origin.
-
-With default values, i.e. `circle()()`, return the whole circonference of unit radius, approximated with a `shape=36` number of 1-cells.
+Calcola un'approssimazione della curva di circonferenza in 2D, centrata sull'origine.
+Con i valori predefiniti, ad esempio "circle()()", restituisce l'intera circonferenza del raggio unitario,
+approssimata con un numero "shape = 36" di 1 celle. Una sua prova è nei TEST
 
 # Example
 ```julia
@@ -112,7 +113,8 @@ end
 """
 	helix(radius=1., pitch=1., nturns=2)(shape=36*nturns)
 
-Compute the approximate elix curve in three-dimensional space, with basis on ``z=0`` plane and centered around the ``z`` axis. The `pitch` of a helix is the height of one complete helix `turn`, measured parallel to the axis of the helix.
+Calcola la curva elix approssimativa nello spazio tridimensionale, con base sul piano `` z = 0 '' e centrata attorno all'asse `` z ''.
+Il "passo" (pitch) di un'elica è l'altezza di un "giro" (turn) completo dell'elica, misurato parallelamente all'asse dell'elica.
 
 # Example
 ```julia
@@ -137,26 +139,12 @@ function helix(radius=1., pitch=1., nturns=2)
     return helix0
 end
 
-#ESEMPIO FUNZIONE MULTITASK
-#function forHelix(radius,pitch)
-#V = hcat(map(u->[radius*cos(u);radius*sin(u);(pitch/(2*pi))*u], V)...)
-
-#function helix(radius=1., pitch=1., nturns=2)
-#function helix0(shape=36*nturns)
- #   angle = nturns*2*pi
- #  V, EV = cuboidGrid([shape])
- #  V = (angle/shape)*V
- #  V = forHelix(radius,pitch) <---------
- #   W, EW = simplifyCells(V, EV)
- #   return W, EW
-#end
-#return helix0
-#end
 
 """
 	disk(radius=1., angle=2*pi)(shape=[36, 1])
 
-Compute the cellular complex approximating a circular sector of 2D disk centered on the origin. In geometry, a disk is the region in a plane bounded by a circle. The `shape` array provides the number of approximating 2-cells.
+Calcola il complesso cellulare approssimando un settore circolare del disco 2D centrato sull'origine.
+In geometria, un disco è la regione in un piano delimitato da un cerchio. L'array `shape` fornisce il numero di 2 celle approssimative.
 
 # Example
 ```julia
@@ -180,27 +168,11 @@ function disk(radius=1., angle=2*pi)
     return disk0
 end
 
-#ESEMPIO FUNZIONE MULTITASK
-#function forDisk(radius,angle)
-#V = hcat(map(p->let(u, v)=p;[v*cos(u);v*sin(u)] end, W)...)
-
-#function disk(radius=1., angle=2*pi)
-#    function disk0(shape=[36, 2])
-#        V, FV = simplexGrid(shape)
-#        V = [angle/shape[1] 0;0 radius/shape[2]]*V
-#        W = [V[:, k] for k=1:size(V, 2)]
-#        V = forDisk(radius,angle)  <-------
-#        W, FW = simplifyCells(V, FV)
-#    FW = [cell for cell in FW if length(cell)==3]
-#     return W, FW #, EW
-#  end
-#   return disk0
-#end
 
 """
 	helicoid(R=1., r=0.5, pitch=1., nturns=2)(shape=[36*nturns, 2])
 
-Compute an approximation of the helicoid surface in 3D, with basis on ``z=0`` plane and centered around the ``z`` axis.
+Calcola un'approssimazione della superficie elicoidale in 3D, con base sul piano `` z = 0 '' e centrata attorno all'asse `` z ''.
 
 # Example
 ```julia
@@ -228,7 +200,8 @@ end
 """
 	ring(r=1., R=2., angle=2*pi)(shape=[36, 1])
 
-Compute the cellular 2-complex approximating a (possibly full) sector of a non-contractible disk. `R` and `r` are the external and the internal radiuses, respectively.
+	           cellular 2-complex
+	Calcola il 2-complesso cellulare approssimando un settore (possibilmente pieno) di un disco non contrattabile. "R" e "r" sono rispettivamente il raggio esterno e quello interno.
 
 # Example
 ```julia
@@ -258,7 +231,8 @@ end
 """
 	cylinder(radius=.5, height=2., angle=2*pi)(shape=[36, 1])
 
-Compute a cellular 2-complex, approximation of a right circular cylindrical surface in 3D. The open surface has basis on ``z=0`` plane and is centered around the ``z`` axis.
+
+	Calcola un 2-complesso cellulare, approssimazione di una superficie cilindrica circolare destra in 3D. La superficie aperta ha base sul piano `` z = 0 '' ed è centrata attorno all'asse `` z ''.
 
 # Example
 ```julia
@@ -288,7 +262,7 @@ end
 """
 	sphere(radius=1., angle1=pi, angle2=2*pi)(shape=[18, 36])
 
-Compute a cellular 2-complex, approximation of the two-dimensional closed surface, embedded in a three-dimensional Euclidean space. Geographical coordinates are user to compute the 0-cells of the complex.
+Calcola un'approssimazione cellulare bidimensionale della superficie chiusa bidimensionale, incorporata in uno spazio euclideo tridimensionale. Le coordinate geografiche sono utente per calcolare le 0 celle del complesso.
 
 # Example
 ```julia
@@ -323,9 +297,9 @@ end
 """
 	toroidal(r=1., R=2., angle1=2*pi, angle2=2*pi)(shape=[24, 36])
 
-Compute a cellular 2-complex, approximation of the two-dimensional surface, embedded in a three-dimensional Euclidean space.
-Toroidal is a closed surface having genus one, and therefore possessing a single "hole".
-It can be constructed from a rectangle by gluing both pairs of opposite edges together with no twists.
+	Calcola un 2-complesso cellulare, approssimazione della superficie bidimensionale, incorporato in uno spazio euclideo tridimensionale.
+	Toroidale è una superficie chiusa di genere uno, e quindi dotata di un unico "foro".
+	Può essere costruito da un rettangolo incollando insieme entrambe le coppie di bordi opposti senza torsioni.
 
 # Example
 ```julia
@@ -353,8 +327,9 @@ end
 """
 	crown(r=1., R=2., angle=2*pi)(shape=[24, 36])
 
-Compute a cellular 2-complex, approximation of a two-dimensional open surface, embedded in a three-dimensional Euclidean space.
-This open surface is generated as an "half-torus", providing only the external shell.
+
+	Calcola un 2-complesso cellulare, approssimazione di una superficie aperta bidimensionale, incorporata in uno spazio euclideo tridimensionale.
+	Questa superficie aperta viene generata come un "mezzo toro", fornendo solo il guscio esterno.
 
 # Example
 ```julia
@@ -383,9 +358,10 @@ end
 """
 	cuboid(maxpoint::Array, full=false, minpoint::Array=zeros(length(maxpoint)))
 
-Return a ``d``-dimensional cube, where ``d`` is the common length of arrays `minpoint` and
-`maxpoint`.
-If `flag=true` the cells of all dimensions (between 1 and ``d``) are generated.
+
+	Restituisce un cubo dimensionale "d", dove "d" è la lunghezza comune degli array "minpoint" e
+	"maxpoint".
+	Se "flag = true" vengono generate le celle di tutte le dimensioni (comprese tra 1 e "d").
 
 ```julia
 julia> cuboid([-0.5, -0.5])
@@ -422,8 +398,8 @@ end
 """
 	ball(radius=1, angle1=pi, angle2=2*pi)(shape=[18, 36,4])
 
-Generate a cell decomposition of a *solid 3-sphere* in ``R^3``.
-The variable `shape` provides the domain decomposition. Empty cells are removed after the *Cartesian -> Polar* coordinate mapping.
+	Genera una scomposizione cellulare di una *solida 3-sfera * in `` R ^ 3 ''.
+	La variabile "shape" fornisce la scomposizione del dominio. Le celle vuote vengono rimosse dopo la mappatura delle coordinate * Cartesiane -> Polare *.
 # Example
 ```julia
 julia> GL.VIEW([
@@ -450,7 +426,7 @@ end
 """
 	rod(radius=1, height=3, angle=2*pi)(shape=[36, 1])
 
-Compute a cellular 3-complex with a *single* 3-cell starting from a cyclindrical surface generated with the same parameters.
+Calcola un 3-complesso cellulare con una * singola * 3 cella partendo da una superficie ciclindrica generata con gli stessi parametri.
 
 # Example
 ```julia
@@ -484,8 +460,9 @@ end
 """
 	hollowCyl(r=1., R=2., height=6., angle=2*pi)(shape=[36, 1, 1])
 
-Compute the cellular 3-complex approximating a solid cylinder with a
-internal axial hole. The model is meshed with cubical 3-cells.
+
+	Calcola il 3-complesso cellulare approssimando un cilindro solido con un
+	foro assiale interno. Il modello è mesh con 3 celle cubiche.
 
 # Example
 ```julia
@@ -512,7 +489,8 @@ end
 """
 	hollowBall(r=1., R=2., angle1=pi, angle2=2*pi)(shape=[36, 1, 1])
 
-Compute the cellular 3-complex approximating a 3-sphere. The model is meshed with cubical 3-cells, where the mesh has default decomposition size `[24, 36, 8]`.
+
+	Calcola il 3-complesso cellulare che si avvicina a una 3-sfera. Il modello è mesh con 3 celle cubiche, dove la mesh ha dimensione di decomposizione predefinita `[24, 36, 8]`.
 
 # Example
 ```julia
@@ -544,8 +522,7 @@ end
 """
 	torus(r=1., R=2., h=.5, angle1=2*pi, angle2=2*pi)(shape=[24, 36, 4])
 
-Compute the cellular 3-complex approximating the solid torus in 3D. The model is meshed with cubical 3-cells, where the mesh has default decomposition size `[24, 36, 4]`. See also: [`toroidal`](@toroidal). `h` is radius of the circular hole inside the solid.
-
+Calcola il complesso 3 cellulare approssimando il toro solido in 3D. Il modello è mesh con 3 celle cubiche, dove la mesh ha dimensione di decomposizione predefinita `[24, 36, 4]`. Vedi anche: [`toroidal`] (@ toroidal). "h" è il raggio del foro circolare all'interno del solido.
 # Example
 ```julia
 julia> GL.VIEW([
