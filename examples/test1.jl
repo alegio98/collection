@@ -5,11 +5,11 @@ Lar = LinearAlgebraicRepresentation
 #aggiunta da me
 
 @testset "cuboid Tests" begin
-	square=Lar.cuboid([1,1])
-	cube=Lar.cuboid([1,1,1])
+	square=Lar.cuboid([1,1])    #quadrato quindi sono settate solamente 2 variabili per rendere il cubo in 2D
+	cube=Lar.cuboid([1,1,1])    #cubo quindi sono settate 3 variabili cubo rappresentato quidi 3D
 	@testset "cuboid Tests 2D" begin
-		@test typeof(square)==Tuple{Array{Float64,2},Array{Array{Int64,1},1}}
-		@test length(square)==2
+		@test typeof(square)==Tuple{Array{Float64,2},Array{Array{Int64,1},1}}       #tipo del quadrato ci aspetteremo una tupla di 2 array di tipo float e int
+		@test length(square)==2														#lunghezza del quadrato
 		@test size(square[1])==(2, 4)
 	end
 	@testset "cuboid Tests 3D" begin
