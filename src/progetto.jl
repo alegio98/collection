@@ -85,6 +85,8 @@ julia> GL.VIEW([
 """
 function circle(radius=1., angle=2*pi)
     function circle0(shape=[36])
+		V = [zero(eltype{Int64,1})]
+	 	EV = [zero(eltype{Int64,1})] 
         V, EV = cuboidGrid(shape)
         V = (angle/shape[1])*V
         V = hcat(map(u->[radius*cos(u); radius*sin(u)], V)...)
